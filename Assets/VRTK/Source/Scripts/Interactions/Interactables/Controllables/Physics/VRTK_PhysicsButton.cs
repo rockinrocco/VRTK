@@ -119,9 +119,8 @@ namespace VRTK.Controllables.PhysicsBased
         protected override void OnDrawGizmosSelected()
         {
             base.OnDrawGizmosSelected();
-            Vector3 transformPosition = (Application.isPlaying ? originalPosition : transform.position);
             Vector3 objectHalf = AxisDirection(true) * (transform.lossyScale[(int)operateAxis] * 0.5f);
-            Vector3 initialPoint = transformPosition + (objectHalf * Mathf.Sign(pressedDistance));
+            Vector3 initialPoint = actualTransformPosition + (objectHalf * Mathf.Sign(pressedDistance));
             Vector3 destinationPoint = initialPoint + (AxisDirection(true) * pressedDistance);
             Gizmos.DrawLine(initialPoint, destinationPoint);
             Gizmos.DrawSphere(destinationPoint, 0.01f);

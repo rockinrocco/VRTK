@@ -14,6 +14,7 @@ This file describes all of the public methods, variables and events utilised by 
    * [Secondary Controller Grab Actions](#secondary-controller-grab-actions-vrtksourcescriptsinteractionssecondarycontrollergrabactions)
    * [Controllables](#controllables-vrtksourcescriptsinteractionscontrollables)
      * [Physics Controllables](#physics-controllables-vrtksourcescriptsinteractionscontrollablesphysics)
+     * [Artificial Controllables](#artificial-controllables-vrtksourcescriptsinteractionscontrollablesartificial)
  * [Presence](#presence-vrtksourcescriptspresence)
  * [UI](#ui-vrtksourcescriptsui)
  * [3D Controls](#3d-controls-vrtksourcescriptscontrols3d)
@@ -6305,6 +6306,95 @@ The IsResting method returns whether the button is currently at it's resting pos
 
 ---
 
+# Artificial Controllables (VRTK/Source/Scripts/Interactions/Controllables/Artificial)
+
+A collection of scripts that provide artificial simulated controls that mimiic real life objects.
+
+ * [Base Physics Controllable](#base-physics-controllable-vrtk_artificialbutton)
+
+---
+
+## Base Physics Controllable (VRTK_ArtificialButton)
+ > extends [VRTK_BaseControllable](#base-controllable-vrtk_basecontrollable)
+
+### Overview
+
+An artificially simulated pushable button.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects. Will be automatically added at runtime.
+
+**Script Usage:**
+ * Place the `VRTK_ArtificialButton` script onto the GameObject that is to become the button.
+
+### Inspector Parameters
+
+ * **Pressed Distance:** The distance along the `Operate Axis` until the button reaches the pressed position.
+ * **Min Max Limit Threshold:** The threshold in which the button's current normalized position along the `Operate Axis` has to be within the minimum and maximum limits of the button.
+ * **Resting Position:** The normalized position of the button between the original position and the pressed position that will be considered as the resting position for the button.
+ * **Resting Position Threshold:** The normalized value that the button can be from the `Resting Position` before the button is considered to be resting when not being interacted with.
+ * **Press Speed:** The speed in which the button moves towards to the `Pressed Distance` position.
+ * **Return Speed:** The speed in which the button will return to the `Target Position` of the button.
+
+### Class Methods
+
+#### GetValue/0
+
+  > `public override float GetValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The actual position of the button.
+
+The GetValue method returns the current position value of the button.
+
+#### GetNormalizedValue/0
+
+  > `public override float GetNormalizedValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized position of the button.
+
+The GetNormalizedValue method returns the current position value of the button normalized between `0f` and `1f`.
+
+#### IsResting/0
+
+  > `public override bool IsResting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the button is currently at the resting position.
+
+The IsResting method returns whether the button is currently at it's resting position.
+
+#### SetStayPressed/1
+
+  > `public virtual void SetStayPressed(bool state)`
+
+ * Parameters
+   * `bool state` - The state to set the `Stay Pressed` parameter to.
+ * Returns
+   * _none_
+
+The SetStayPressed method sets the `Stay Pressed` parameter to the given state and if the state is false and the button is currently pressed then it is reset to the original position.
+
+#### SetPositionTarget/1
+
+  > `public virtual void SetPositionTarget(float normalizedTarget)`
+
+ * Parameters
+   * `float normalizedTarget` - The `Position Target` to set the button to between `0f` and `1f`.
+ * Returns
+   * _none_
+
+The SetPositionTarget method sets the `Position Target` parameter to the given normalized value.
+
+---
+
 # Presence (VRTK/Source/Scripts/Presence)
 
 A collection of scripts that provide the ability to deal with tracking the world around the user in the scene.
@@ -8390,6 +8480,19 @@ The GetGPUTimeLastFrame retrieves the time spent by the GPU last frame, in secon
    * `bool` - Returns `true` if the given Vector2 objects match based on the given fidelity.
 
 The Vector2ShallowCompare method compares two given Vector2 objects based on the given fidelity, which is the equivalent of comparing rounded Vector2 elements to determine if the Vector2 elements are equal.
+
+#### Vector3ShallowCompare/3
+
+  > `public static bool Vector3ShallowCompare(Vector3 vectorA, Vector3 vectorB, float threshold)`
+
+ * Parameters
+   * `Vector3 vectorA` - The Vector3 to compare against.
+   * `Vector3 vectorB` - The Vector3 to compare with
+   * `float threshold` - The distance in which the two Vector3 objects can be within to be considered true
+ * Returns
+   * `bool` - Returns `true` if the given Vector3 objects are within the given threshold distance.
+
+The Vector3ShallowCompare method compares two given Vector3 objects based on the given threshold, which is the equavelent of checking the distance between two Vector3 objects are above the threshold distance.
 
 #### NumberPercent/2
 
