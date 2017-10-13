@@ -289,9 +289,9 @@ namespace VRTK.GrabAttachMechanics
         /// <param name="ignoreTransition">If this is `true` then the `Reset To Origin On Release Speed` will be ignored and the reset will occur instantly.</param>
         public virtual void ResetRotation(bool ignoreTransition = false)
         {
+            CancelDecelerateRotation();
             if (resetToOrignOnReleaseSpeed > 0 && !ignoreTransition)
             {
-
                 CancelUpdateRotation();
                 updateRotationRoutine = StartCoroutine(RotateToAngle(Vector3.zero, resetToOrignOnReleaseSpeed));
             }
@@ -299,6 +299,7 @@ namespace VRTK.GrabAttachMechanics
             {
                 UpdateRotation(originRotation.eulerAngles, false, false);
                 currentRotation = Vector3.zero;
+                currentRotationSpeed = Vector3.zero;
             }
         }
 
@@ -460,6 +461,7 @@ namespace VRTK.GrabAttachMechanics
         protected virtual IEnumerator RotateToAngle(Vector3 targetAngle, float rotationSpeed)
         {
             Vector3 previousRotation = currentRotation;
+            currentRotationSpeed = Vector3.zero;
             while (currentRotation != targetAngle)
             {
                 currentRotation = Vector3.Lerp(currentRotation, targetAngle, rotationSpeed * Time.deltaTime);
@@ -467,7 +469,7 @@ namespace VRTK.GrabAttachMechanics
                 previousRotation = currentRotation;
                 yield return null;
             }
-            UpdateRotation(originRotation.eulerAngles, false, false);
+            UpdateRotation(targetAngle, false, false);
             currentRotation = targetAngle;
         }
 

@@ -1,4 +1,4 @@
-﻿// Base Physics Controllable|ArtificialControllables|120010
+﻿// Artificial Button|ArtificialControllables|120010
 namespace VRTK.Controllables.ArtificialBased
 {
     using UnityEngine;

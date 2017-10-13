@@ -6392,11 +6392,12 @@ The IsResting method returns whether the door is at the resting angle or within 
 
 A collection of scripts that provide artificial simulated controls that mimiic real life objects.
 
- * [Base Physics Controllable](#base-physics-controllable-vrtk_artificialbutton)
+ * [Artificial Button](#artificial-button-vrtk_artificialbutton)
+ * [Artificial Door](#artificial-door-vrtk_artificialdoor)
 
 ---
 
-## Base Physics Controllable (VRTK_ArtificialButton)
+## Artificial Button (VRTK_ArtificialButton)
  > extends [VRTK_BaseControllable](#base-controllable-vrtk_basecontrollable)
 
 ### Overview
@@ -6474,6 +6475,96 @@ The SetStayPressed method sets the `Stay Pressed` parameter to the given state a
    * _none_
 
 The SetPositionTarget method sets the `Position Target` parameter to the given normalized value.
+
+---
+
+## Artificial Door (VRTK_ArtificialDoor)
+ > extends [VRTK_BaseControllable](#base-controllable-vrtk_basecontrollable)
+
+### Overview
+
+A artificially simulated openable door.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects. Will be automatically added at runtime.
+
+**Script Usage:**
+ * Place the `VRTK_ArtificialDoor` script onto the GameObject that is to become the door.
+ * Create a nested GameObject under the door GameObject and position it where the hinge should operate.
+ * Apply the nested hinge GameObject to the `Hinge Point` parameter on the Artificial Door script.
+
+  > At runtime, the Artificial Door script GameObject will become the child of a runtime created GameObject that determines the rotational offset for the door.
+
+### Inspector Parameters
+
+ * **Hinge Point:** A Transform that denotes the position where the door will rotate around.
+ * **Minimum Angle:** The minimum angle the door can rotate to.
+ * **Maximum Angle:** The maximum angle the door can rotate to.
+ * **Min Max Threshold Angle:** The angle at which the door rotation can be within the minimum or maximum angle before the minimum or maximum angles are considered reached.
+ * **Resting Angle:** The angle at which will be considered as the resting position of the door.
+ * **Force Shut Threshold Angle:** The threshold angle from the `Resting Angle` that the current angle of the door needs to be within to snap the door back to the `Resting Angle`.
+ * **Is Locked:** If this is checked then the door will not be able to be moved.
+ * **Detach Distance:** The maximum distance the grabbing object is away from the door before it is automatically released.
+ * **Grabbed Friction:** The simulated friction when the door is grabbed.
+ * **Released Friction:** The simulated friction when the door is released.
+ * **Only Interact With:** A collection of GameObjects that will be used as the valid collisions to determine if the door can be interacted with.
+
+### Class Methods
+
+#### GetValue/0
+
+  > `public override float GetValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The actual rotation of the door.
+
+The GetValue method returns the current rotation value of the door.
+
+#### GetNormalizedValue/0
+
+  > `public override float GetNormalizedValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized rotation of the door.
+
+The GetNormalizedValue method returns the current rotation value of the door normalized between `0f` and `1f`.
+
+#### GetContainer/0
+
+  > `public virtual GameObject GetContainer()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `GameObject` - The GameObject container of the door control.
+
+The GetContainer method returns the GameObject that is generated to hold the door control.
+
+#### SetAngleTarget/1
+
+  > `public virtual void SetAngleTarget(float newAngle)`
+
+ * Parameters
+   * `float newAngle` - The angle in which to rotate the door to.
+ * Returns
+   * _none_
+
+The SetAngleTarget method sets a target angle to rotate the door to.
+
+#### IsResting/0
+
+  > `public override bool IsResting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the door is at the resting angle or within the resting angle threshold.
+
+The IsResting method returns whether the door is at the resting angle or within the resting angle threshold.
 
 ---
 
