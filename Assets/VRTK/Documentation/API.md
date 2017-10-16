@@ -5096,6 +5096,17 @@ The ProcessUpdate method is run in every Update method on the Interactable Objec
 
 The ProcessFixedUpdate method is run in every FixedUpdate method on the Interactable Object.
 
+#### ResetState/0
+
+  > `public virtual void ResetState()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ResetState method re-initializes the grab attach.
+
 ---
 
 ## Base Joint Grab Attach (VRTK_BaseJointGrabAttach)
@@ -5684,6 +5695,18 @@ The GetCurrentDirection method returns a Vector3 of the current positive/negativ
 
 The GetDirectionFromOrigin method returns a Vector3 of the direction across the axis from the original position.
 
+#### SetCurrentPosition/2
+
+  > `public virtual void SetCurrentPosition(Vector3 newPosition, float speed)`
+
+ * Parameters
+   * `Vector3 newPosition` - The position to move the Interactable Object to.
+   * `float speed` - The speed in which to move the Interactable Object.
+ * Returns
+   * _none_
+
+The SetCurrentPosition method sets the position of the Interactable Object to the given new position at the appropriate speed.
+
 #### ResetPosition/0
 
   > `public virtual void ResetPosition()`
@@ -5693,7 +5716,7 @@ The GetDirectionFromOrigin method returns a Vector3 of the direction across the 
  * Returns
    * _none_
 
-The ResetPosition method will move the transform back to the origin position.
+The ResetPosition method will move the Interactable Object back to the origin position.
 
 #### GetWorldLimits/0
 
@@ -6512,6 +6535,7 @@ A collection of scripts that provide artificial simulated controls that mimiic r
 
  * [Artificial Button](#artificial-button-vrtk_artificialbutton)
  * [Artificial Door](#artificial-door-vrtk_artificialdoor)
+ * [Artificial Slider](#artificial-slider-vrtk_artificialslider)
 
 ---
 
@@ -6683,6 +6707,132 @@ The SetAngleTarget method sets a target angle to rotate the door to.
    * `bool` - Returns `true` if the door is at the resting angle or within the resting angle threshold.
 
 The IsResting method returns whether the door is at the resting angle or within the resting angle threshold.
+
+---
+
+## Artificial Slider (VRTK_ArtificialSlider)
+ > extends [VRTK_BaseControllable](#base-controllable-vrtk_basecontrollable)
+
+### Overview
+
+A artificially simulated slider.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects. Will be automatically added at runtime.
+
+**Script Usage:**
+ * Create a slider container GameObject and set the GameObject that is to become the slider as a child of the container.
+ * Place the `VRTK_ArtificialSlider` script onto the GameObject that is to become the slider.
+
+  > The slider GameObject must not be at the root level and needs to have it's Transform position set to `0,0,0`. This is the reason for the container GameObject requirement. Any positioning of the slider must be set on the parent GameObject.
+
+### Inspector Parameters
+
+ * **Maximum Length:** The maximum length that the slider can be moved from the origin position across the `Operate Axis`. A negative value will allow it to move the opposite way.
+ * **Min Max Threshold:** The normalized position the slider can be within the minimum or maximum slider positions before the minimum or maximum positions are considered reached.
+ * **Resting Position:** The position the slider when it is at the default resting point given in a normalized value of `0f` (start point) to `1f` (end point).
+ * **Force Resting Position Threshold:** The normalized threshold value the slider has to be within the `Resting Position` before the slider is forced back to the `Resting Position` if it is not grabbed.
+ * **Step Value Range:** The minimum `(x)` and the maximum `(y)` step values for the slider to register along the `Operate Axis`.
+ * **Step Size:** The increments the slider value will change in between the `Step Value Range`.
+ * **Use Step As Value:** If this is checked then the value for the slider will be the step value and not the absolute position of the slider Transform.
+ * **Snap To Step:** If this is checked then the slider will snap to the position of the nearest step along the value range.
+ * **Snap Force:** The speed in which the slider will snap to the relevant point along the `Operate Axis`
+ * **Tracking Speed:** The speed in which to track the grabbed slider to the interacting object.
+ * **Detach Distance:** The maximum distance the grabbing object is away from the slider before it is automatically released.
+ * **Release Friction:** The amount of friction to the slider Rigidbody when it is released.
+ * **Only Interact With:** A collection of GameObjects that will be used as the valid collisions to determine if the door can be interacted with.
+
+### Class Methods
+
+#### GetValue/0
+
+  > `public override float GetValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The actual position of the button.
+
+The GetValue method returns the current position value of the slider.
+
+#### GetNormalizedValue/0
+
+  > `public override float GetNormalizedValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized position of the button.
+
+The GetNormalizedValue method returns the current position value of the slider normalized between `0f` and `1f`.
+
+#### GetStepValue/1
+
+  > `public virtual float GetStepValue(float currentValue)`
+
+ * Parameters
+   * `float currentValue` - The current position value of the slider to get the Step Value for.
+ * Returns
+   * `float` - The current Step Value based on the slider position.
+
+The GetStepValue method returns the current position of the slider based on the step value range.
+
+#### SetPositionTarget/2
+
+  > `public virtual void SetPositionTarget(float newPositionTarget, float speed)`
+
+ * Parameters
+   * `float newPositionTarget` - The new position target value.
+   * `float speed` - The speed to move to the new position target.
+ * Returns
+   * _none_
+
+The SetPositionTarget method allows the setting of the `Position Target` parameter at runtime.
+
+#### SetPositionTargetWithStepValue/2
+
+  > `public virtual void SetPositionTargetWithStepValue(float givenStepValue, float speed)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Position Target` parameter to.
+   * `float speed` - The speed to move to the new position target.
+ * Returns
+   * _none_
+
+The SetPositionTargetWithStepValue sets the `Position Target` parameter but uses a value within the `Step Value Range`.
+
+#### SetRestingPositionWithStepValue/1
+
+  > `public virtual void SetRestingPositionWithStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Resting Position` parameter to.
+ * Returns
+   * _none_
+
+The SetRestingPositionWithStepValue sets the `Resting Position` parameter but uses a value within the `Step Value Range`.
+
+#### GetPositionFromStepValue/1
+
+  > `public virtual float GetPositionFromStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value to check the position for.
+ * Returns
+   * `float` - The position the slider would be at based on the given step value.
+
+The GetPositionFromStepValue returns the position the slider would be at based on the given step value.
+
+#### IsResting/0
+
+  > `public override bool IsResting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the slider is at the resting position or within the resting position threshold.
+
+The IsResting method returns whether the slider is at the resting position or within the resting position threshold.
 
 ---
 
