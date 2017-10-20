@@ -6,6 +6,7 @@ A collection of titles that have been made with VRTK.
 
 | Name | Link |
 |-------------------------------------------------|-------------------------------------------------------------------------------------------|
+| Bit Storm VR: First Loop | [Steam Store Page](http://store.steampowered.com/app/711300/Bit_Storm_VR_First_Loop/)
 | QuiVR | [Steam Store Page](http://store.steampowered.com/app/489380) |
 | One Of The Last | [Steam Store Page](http://store.steampowered.com/app/550360) |
 | Left-Hand Path | [Steam Store Page](http://store.steampowered.com/app/488760) |
